@@ -1,6 +1,6 @@
+import './style/App.css';
 import ReactDOM from "react-dom/client";
 import type { Root } from "react-dom/client";
-import './style/App.css';
 import Router from './router/index';
 
 
