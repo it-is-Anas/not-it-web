@@ -9,7 +9,7 @@ export default function LogIn(){
 
     const [ validateError , setValidateError] = useState({email: false, password: false, msg : ''}); 
 
-function emailValidate(value){
+function emailValidate(value:string){
         const check = emailValidation(value);
         if(check){
             if(!validateError.email)
@@ -18,15 +18,15 @@ function emailValidate(value){
             setValidateError(oldData=>({...oldData,email: false ,msg: 'email not a valied email'}));
         }
     }
-    function passwordValidate(value){
-        const check = passwordValidation(value);
-        if(check){
-            if(!validateError.password)
-                setValidateError(oldData=>({...oldData,password: true ,msg: ''}));
-        }else{ 
-            setValidateError(oldData=>({...oldData,password: false ,msg: 'password should only containt nimurices and between 8 and 20'}));
-        }
+function passwordValidate(value:string){
+    const check = passwordValidation(value);
+    if(check){
+        if(!validateError.password)
+            setValidateError(oldData=>({...oldData,password: true ,msg: ''}));
+    }else{ 
+        setValidateError(oldData=>({...oldData,password: false ,msg: 'password should only containt nimurices and between 8 and 20'}));
     }
+}
 
     
     function getEmail(value: string):void{
