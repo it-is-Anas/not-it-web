@@ -2,11 +2,14 @@ import './style/App.css';
 import ReactDOM from "react-dom/client";
 import type { Root } from "react-dom/client";
 import Router from './router/index';
-
+import { Provider } from 'react-redux';
+import { store } from './state/main';
 
 export default function App() {
   return (
-    <Router />
+    <Provider store={store}>
+      <Router />
+    </Provider>
   );
 }
 

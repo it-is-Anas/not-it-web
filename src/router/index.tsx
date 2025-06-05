@@ -6,12 +6,15 @@ import LogIn from "../pages/Log/LogIn";
 
 import Home from "../pages/UserPages/Home";
 
+import Counter from "../pages/Counter";
+
 export default function Router(){
     return (
         <>
             <BrowserRouter>
                 <Routes>
                     {/* <Route path='/' element={<LogLoyout />} /> */}
+                    <Route path='' element={<Home />} />
                     <Route path='log' element={<LogLoyout />} >
                         <Route path="sign-up" element={<SignUp />} />
                         <Route path="log-in" element={<LogIn />} />

@@ -1,10 +1,12 @@
 import { InputFiled }  from "../../components/Inputs";
 import { Btn } from "../../components/Buttons";
-import { Link  } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 
 import { emailValidation , passwordValidation } from '../../validations/validations';
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setData } from "../../state/Slices/AuthState";
 
 export default function LogIn(){
 
@@ -39,18 +41,21 @@ function passwordValidate(value:string){
     function setPassword(password){
         setUser(oldUser=>({...oldUser,password}));
     }
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const logIn = async () => {
         try{
-            console.log(user);
             const response = await axios.post('http://localhost:3000/auth/log-in', user, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             if(response.status ===  201){
-                const {access_token , user: data, } = response.data;
-                console.log(access_token,user); // I have to save this to state mangement
+                console.log(response.data);
+                const token = response.data.access_token;
+                const user = response.data.data;
+                dispatch(setData({token,user}));
+                navigate('/');
             }
         }catch(err){
             console.log('Something went wrong please try again later');

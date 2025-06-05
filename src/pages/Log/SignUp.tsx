@@ -5,6 +5,11 @@ import { Link  } from "react-router-dom";
 import { nameValidation, emailValidation , passwordValidation } from '../../validations/validations';
 import { useState } from "react";
 import { SignUpIp } from '../../config/backendipes';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../state/main';
+import { setData } from '../../state/Slices/AuthState';
+
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -65,7 +70,8 @@ export default function SignUp(){
         setUser(oldUser => ({...oldUser,password: password}));
     }
 
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const signUp = async () => {
         try{
             const response = await axios.post('http://localhost:3000/auth', user, {
@@ -73,10 +79,10 @@ export default function SignUp(){
                     'Content-Type': 'application/json',
                 },
             });
-
             if(response.status ===  201){
                 const {access_token , user: data, } = response.data;
-                console.log(access_token,user); // I have to save this to state mangement
+                dispatch(setData({user: user ,token: access_token}));
+                navigate('/');
             }
         }catch(err){
             console.log('Something went wrong please try again later');
