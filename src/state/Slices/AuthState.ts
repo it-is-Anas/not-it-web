@@ -26,6 +26,7 @@ export const counterSlice = createSlice({
             state.lastName = action.payload.user.lastName;
             state.email = action.payload.user.email;
             state.password = action.payload.user.password;
+            localStorage.setItem('token',action.payload.token);
         }
     },
 });
