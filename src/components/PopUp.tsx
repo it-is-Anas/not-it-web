@@ -2,14 +2,21 @@ import { useEffect, useState } from "react";
 import { InputFiled } from "./Inputs";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { putNotes } from "../state/Slices/productState";
+import { putNotes , updateNote } from "../state/Slices/productState";
 import { Btn } from "./Buttons";
 
 interface createNoteProps {
     openPopUp?: (open:()=>void)=>void,
-}
-
-export function CreateNote({openPopUp,}:createNoteProps){
+    title?: string,
+    content?: string,
+    id?: number|null,
+};
+interface note{
+    title: string,
+    content: string,
+    date?: string,
+};
+export function CreateNote({openPopUp,title= '',content='',id= null}:createNoteProps){
     const [popUp,togglePopUp] = useState<boolean>(false);
 
     useEffect(()=>{
@@ -19,7 +26,7 @@ export function CreateNote({openPopUp,}:createNoteProps){
     },[ ]);
     
 
-    const [note,setNote] = useState({title: '',content: ''});
+    const [note,setNote] = useState<note>({title: title,content: content});
 
     function setTitle(title: string){
         setNote(oldNote=>({...oldNote,title}));
@@ -45,6 +52,7 @@ export function CreateNote({openPopUp,}:createNoteProps){
 
     const dispatch = useDispatch();
     const putNewNote = (note:noteType) => dispatch(putNotes([note]));
+    const updateANote = (note:noteType) => dispatch(updateNote([note]));
     
     async function createNewNote(){
         try{
@@ -57,9 +65,7 @@ export function CreateNote({openPopUp,}:createNoteProps){
             });
 
             if(response.status === 201){
-                if(response.data.status){
-                    console.log(response.data.data);
-                    //  Now I have to save this to state mangement 
+                if(response.data.status === 201){
                     putNewNote(response.data.data);
                     clear();
                     togglePopUp(false);    
@@ -69,6 +75,40 @@ export function CreateNote({openPopUp,}:createNoteProps){
             console.log('error',error);
         }
     }
+
+    async function updateNewNote(){
+        try{
+            const response = await axios.patch('http://localhost:3000/note/'+id,
+            note,
+            {
+                headers:{
+                    Authorization: 'bearer '+localStorage.getItem('token'),
+                }
+            });
+            if(response.status === 200){
+                if(response.data.status === 201){
+                    updateANote(response.data.data);
+                    // i have to rechange the instead of old data
+                    // clear();
+                    togglePopUp(false);    
+                }
+            }
+        }catch(error){
+            console.log('error',error);
+        }
+    }
+
+
+    function clickHandler(){
+        if(id){ 
+            updateNewNote();
+        }else{
+            createNewNote();
+        }
+    }
+
+
+
     const result = popUp?(
         <>
             <div onClick={()=>togglePopUp(old=>!old)} className="w-[100vw] h-[100vh] fixed z-[200] top-0 left-0"></div>
@@ -78,15 +118,20 @@ export function CreateNote({openPopUp,}:createNoteProps){
                 </div>
                 <div className="w-[100%]   p-[10px] font-bold flex  justify-start flex-col">
                     <p className="text-[white]">Not Title :</p>
-                    <InputFiled getValueFn={setTitle} reset={reset}  label="to my aunt"  />
+                    <InputFiled dValue={title} getValueFn={setTitle}  reset={reset}  label="to my aunt"  />
                 </div>
                 <div className="w-[100%]   p-[10px] font-bold flex justify-start  flex-col" >
                     <p className="text-[white]">Not Content :</p>
-                    <InputFiled getValueFn={setContent}  reset={reset} label="take care of it" />
+                    <InputFiled dValue={content} getValueFn={setContent}  reset={reset} label="take care of it" />
                 </div>
                 <div className="w-[100%]   p-[10px] font-bold flex justify-around items-center " >
-                    <Btn defaultBtn={false} onClick={clear} label="Clear" />
-                    <Btn onClick={createNewNote} label="Create" />
+                    {
+                        id?
+                        <Btn defaultBtn={false} onClick={()=>togglePopUp(false)} label="Cancel" />
+                        :
+                        <Btn defaultBtn={false} onClick={clear} label="Clear" />
+                    }
+                    <Btn onClick={clickHandler} label="Create" />
                 </div>
             </div>
         </>

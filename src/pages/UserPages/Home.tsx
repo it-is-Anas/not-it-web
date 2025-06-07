@@ -8,12 +8,6 @@ import { useEffect } from "react";
 
 export default function Home(){
 
-    interface note{
-        title: string,
-        content: string,
-        date: string,
-    };
-
     const products = useSelector((state: RootState) => state.products.products);
     const dispatch = useDispatch();
     
@@ -35,13 +29,13 @@ export default function Home(){
         pullNotes();
     }, []);
 
-    
+
 
     return (
         <>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))]  w-[100%]  justify-items-center">
                 {
-                    products.map((ele,index)=><Note key={index} title={ele.title} content={ele.content} date={ele.createdAt} />)
+                    products.map((ele,index)=><Note key={index} title={ele.title} content={ele.content} date={ele.createdAt} id={ele.id} />)
                 }
             </div>
         </>

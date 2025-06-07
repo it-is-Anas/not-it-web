@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import { CreateNote } from "./PopUp";
 
 
 interface props{
     title: string,
     content: string,
-    date: string
+    date: string,
+    id: null| number
 };
- 
 
-export default function Note({title='',content='',date=''}:props){
+
+export default function Note({title='',content='',date='',id=null}:props){
     const [openContextMenu,toggleContextMenu] = useState(false);
     const contextMenu = openContextMenu? 
     (
@@ -27,15 +29,24 @@ export default function Note({title='',content='',date=''}:props){
         }
     }
 
+    const [openPopUpAction, setOpenPop] = useState<() => void>(() => () => {});
+
+    function openPop(open: () => void): void {
+        if (open) {
+            setOpenPop(() => open);
+        }
+    }
+
     return (
         <>
             {bk}
-            <div className="relative w-[250px] h-[160px] m-[10px] rounded bg-[peachpuff]" onContextMenu={handleContextMenu} >
+            <div onClick={openPopUpAction} className="relative w-[250px] h-[160px] m-[10px] rounded bg-[peachpuff]" onContextMenu={handleContextMenu} >
                 <p className="max-h-[40px] font-bold py-[5px] px-[10px] w-[100%]" >{title}</p>
                 <p className="p-[10px] h-[100px] font-[500]">{content}</p>
                 <div className="w-[100%] h-[10px] p-[10px] border-t border-solid font-[500] text-[13px] flex items-center justify-end">{date}</div>
                 {contextMenu}
             </div>
+            <CreateNote openPopUp={openPop} title={title} content={content} id={id} />
         </>
     );
 }
