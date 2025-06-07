@@ -39,7 +39,7 @@ export default function Home(){
 
     return (
         <>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] w-[100%]  justify-items-center">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))]  w-[100%]  justify-items-center">
                 {
                     products.map((ele,index)=><Note key={index} title={ele.title} content={ele.content} date={ele.createdAt} />)
                 }

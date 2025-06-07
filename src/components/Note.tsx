@@ -6,7 +6,7 @@ interface props{
     content: string,
     date: string
 };
-
+ 
 
 export default function Note({title='',content='',date=''}:props){
     const [openContextMenu,toggleContextMenu] = useState(false);

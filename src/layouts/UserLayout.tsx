@@ -4,7 +4,7 @@ import { UserHeader } from "../components/Header";
 
 export default function UserLayout(){
     return (
-        <div className="w-[100vw] h-[100vh]  ">
+        <div className=" w-[100%] h-[100vh] ">
             <UserHeader />
             <Outlet />
         </div>

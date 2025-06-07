@@ -62,8 +62,8 @@ export function UserHeader(){
     if(popUp){
             popUpTag = 
             <>
-                <div onClick={()=>togglePopUp(old=>!old)} className="w-[100vw] h-[100vh] fixed top-0 left-0"></div>
-                <div  className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 rounded-md h-[auto] max-w-[25em] bg-slate-500">
+                <div onClick={()=>togglePopUp(old=>!old)} className="w-[100vw] h-[100vh] fixed z-[200] top-0 left-0"></div>
+                <div  className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 z-[200] h-4/5 rounded-md h-[auto] max-w-[25em] bg-slate-500">
                     <div className="w-[100%]  p-[10px] font-bold flex items-center justify-start">
                     <p className="text-[white]">Create New Note :</p>
                 </div>
@@ -83,7 +83,7 @@ export function UserHeader(){
             </>;
     }
     return (<>
-        <header className="w-[100vw] h-[65px] p-[.4em]  bg-[#eee] flex items-center justify-between" >
+        <header className="w-[100%] h-[65px] p-[.4em]  bg-[#eee] flex items-center justify-between" >
             <p className="p-2  text-[1.5em] font-bold">NOT IT</p>
             <p onClick={()=>togglePopUp(old=>!old)} className="text-[1em] font-100 bg-[white] p-[.3em] rounded text-center cursor-pointer">new note</p>
         </header>
