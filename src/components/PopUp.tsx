@@ -131,7 +131,12 @@ export function CreateNote({openPopUp,title= '',content='',id= null}:createNoteP
                         :
                         <Btn defaultBtn={false} onClick={clear} label="Clear" />
                     }
-                    <Btn onClick={clickHandler} label="Create" />
+                    {
+                        id?
+                        <Btn onClick={clickHandler} label="update" />
+                        :
+                        <Btn onClick={clickHandler} label="Create" />
+                    }
                 </div>
             </div>
         </>
