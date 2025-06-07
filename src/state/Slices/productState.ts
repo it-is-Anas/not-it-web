@@ -17,16 +17,19 @@ export const counterSlice = createSlice({
             state.products = [...action.payload,...state.products];
         },
         updateNote(state,action){
-            const updatedNote = action.payload[0];
             for(let i = 0 ; i < state.products.length ; ++i){
                 if(state.products[i]['id'] === action.payload[0]['id']){
                     state.products[i].title = action.payload[0].title; 
                     state.products[i].content = action.payload[0].content; 
                 }
             }
-        },
+        },removeNote(state,action){
+            state.products = state.products.filter((ele)=>{
+                return ele['id'] !== action.payload;
+            });
+        }
     },
 });
 
-export const { putNotes , updateNote } = counterSlice.actions; 
+export const { putNotes , updateNote ,removeNote  } = counterSlice.actions; 
 export default counterSlice.reducer;
